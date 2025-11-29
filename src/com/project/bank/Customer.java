@@ -25,6 +25,9 @@ public class Customer extends User{
     public ArrayList<Account> getAccounts(){
         return accounts;
     }
+    public String getStatus(){
+        return this.status;
+    }
 
 
 }
