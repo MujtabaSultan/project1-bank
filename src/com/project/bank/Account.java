@@ -15,7 +15,7 @@ public abstract class Account {
         this.accountType = accountType;
         this.isActive = isActive;
         this.balance = balance;
-        this.overdraftCount = overdraftCount;
+        this.overdraftCount = 0;
         this.debitCard = debitCard;
     }
 
@@ -23,25 +23,25 @@ public abstract class Account {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
-        this.accountId = accountId;
-    }
+//    public void setAccountId(String accountId) {
+//        this.accountId = accountId;
+//    }
 
     public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
+//    public void setCustomerId(String customerId) {
+//        this.customerId = customerId;
+//    }
 
     public String getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
+//    public void setAccountType(String accountType) {
+//        this.accountType = accountType;
+//    }
 
     public boolean isActive() {
         return isActive;
@@ -71,7 +71,10 @@ public abstract class Account {
         return overdraftCount;
     }
 
-    public void setOverdraftCount(int overdraftCount) {
-        this.overdraftCount = overdraftCount;
+    public void incrementOverdraft(int overdraftCount) {
+        this.overdraftCount++;
+    }
+    public void resetOverdraft(){
+        this.overdraftCount=0;
     }
 }
