@@ -7,6 +7,7 @@ import java.util.Comparator;
 public abstract class User {
     private String first_name;
     private String last_name;
+    private String email;
     private String id;
     private String password;
     private String role;
@@ -15,9 +16,10 @@ public abstract class User {
 
     public User() {}
 
-    public User(String first_name, String last_name, String role, String id,String password) {
+    public User(String first_name, String last_name, String role, String id,String password ,String email) {
         this.first_name = first_name;
         this.last_name = last_name;
+        this.email=email;
         this.role = role;
         this.id = id;
         this.password=password;
