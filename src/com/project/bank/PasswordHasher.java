@@ -5,15 +5,25 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import org.mindrot.jbcrypt.BCrypt;
+
 
 public class PasswordHasher implements IPasswordHasher{
     @Override
     public String encypt(String pass) {
-        return "";
+
+        String hashedPassword = BCrypt.hashpw(pass, BCrypt.gensalt());
+        
+        return hashedPassword;
+
     }
 
     @Override
-    public boolean check(String pass) {
+    public boolean check(String input , String hashedPass) {
+
+        if (BCrypt.checkpw(input, hashedPass)) {
+            return true;
+        }
         return false;
     }
 }
