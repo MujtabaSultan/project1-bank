@@ -68,7 +68,7 @@ public abstract class DebitCard {
 
     public boolean deposit(double amount , Account target) {
         dailyReset();
-       boolean isOwnAccount = this.accountId.equals(target.getAccountId());
+       boolean isOwnAccount = this.userId.equals(target.getDebitCard().userId);
         double limit = isOwnAccount ? dailyOwnDepositLimit : dailyDepositLimit;
         if (usedDepositToday + amount <= limit) {
             usedDepositToday += amount;
