@@ -181,14 +181,12 @@ public abstract class DebitCard {
     public void setUsedDepositToday(double usedDepositToday) {
         this.usedDepositToday = usedDepositToday;
     }
-
     public String toString() {
-        return "CARD|" +
-                cardId + "|" +
-                cardType + "|" +
-                dailyWithdrawLimit + "|" +
-                dailyDepositLimit + "|" +
-                dailyTransferLimit;
+        return "CARD|" + cardId + "|" + cardType + "|" +
+                dailyWithdrawLimit + "|" + dailyDepositLimit + "|" +
+                dailyTransferLimit + "|" + dailyOwnTransferLimit + "|" +
+                dailyOwnDepositLimit + "|" + usedWithdrawToday + "|" +
+                usedTransferToday + "|" + usedDepositToday + "|" + lastResetDate;
     }
 
 }

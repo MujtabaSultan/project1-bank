@@ -1,0 +1,6 @@
+mujtaba
+sultan
+mujtaba
+aaf99271-959a-4ea0-8d9c-831a7846d6a7
+$2a$12$acPrcsGE/yFMhhFuDxySIOPruVVQ00nXdw7dlHEuG0hHrexvAn0h2
+ACCOUNT|ea68a2a9-8727-4af0-8f2b-21932f060984|1|Saving|0.0|true|0|CARD|499356ad-ac00-4cd6-bb1c-feb5b1a21f50|MasterCard|500.0|1000.0|1000.0|2000.0|5000.0|0.0|0.0|0.0|2025-12-05

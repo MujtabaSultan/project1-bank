@@ -30,8 +30,8 @@ public abstract class User {
 
 
     public boolean checkPassword( String inputPass){
-       // return PasswordUtils.verifyPassword(inputPass,password);
-        return true;
+        PasswordHasher hasher = new PasswordHasher();
+        return hasher.check(inputPass, password);
     }
 
     public abstract String getRole ();
@@ -40,8 +40,17 @@ public abstract class User {
         lockUntil=null;
         failed_login_attempts=0;
     }
-    public boolean isLocked(){
-        return lockUntil != null && LocalDateTime.now().isBefore(lockUntil);
+    public boolean isLocked() {
+        if (lockUntil != null && LocalDateTime.now().isBefore(lockUntil)) {
+            return true;
+        } else if (lockUntil != null && LocalDateTime.now().isAfter(lockUntil)) {
+            resetLock();
+        }
+        return false;
+    }
+    public void loginSuccess() {
+        // i probably will not even use this , ill see
+        resetLock();
     }
     public void loginFail(){
         failed_login_attempts++;
@@ -79,6 +88,17 @@ public abstract class User {
 
     public String getPassword() {
         return password;
+    }
+    public LocalDateTime getLockUntil() {
+        return lockUntil;
+    }
+
+    public Integer getFailedLoginAttempts() {
+        return failed_login_attempts;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public void setPassword(String password) {

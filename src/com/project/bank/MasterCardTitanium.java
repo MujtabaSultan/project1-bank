@@ -3,7 +3,7 @@ package com.project.bank;
 public class MasterCardTitanium extends DebitCard{
     public MasterCardTitanium(String cardId, String accountId,String userId) {
         super(cardId, accountId, "Titanium", userId,
-                2000, 5000, 10000, 5000, 20000);
+                10000, 20000, 40000, 100000, 200000);
     }
 
     @Override

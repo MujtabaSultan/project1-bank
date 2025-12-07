@@ -41,7 +41,7 @@ public class UserMenu {
 
             Account selected = accounts.get(choice - 1);
 
-            //new AccountDisplay().run(user, selected);
+            new AccountDisplay().run(user.getAccounts().get(choice-1),user);
         }
     }
 }

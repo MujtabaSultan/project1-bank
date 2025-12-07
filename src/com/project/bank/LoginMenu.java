@@ -1,5 +1,6 @@
 package com.project.bank;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -112,6 +113,7 @@ public class LoginMenu {
             card.setAccountId(accType.getAccountId());
             card.setUserId(c.getId());
             accType.setCustomerId(c.getId());
+            accType.setUserEMail(c.getEmail());
             c.addAccount(accType);
 
             if (selectionAccTypes == 3) {
@@ -135,6 +137,12 @@ public class LoginMenu {
         System.out.println("Email: ");
         String email = sc.nextLine();
 
+        File userFile = new File("Customer-" + email + ".txt");
+        if (!userFile.exists()) {
+            System.out.println("Invalid email or password.");
+            return;
+        }
+
         System.out.println("Password: ");
         String pass = sc.nextLine();
 
@@ -143,8 +151,12 @@ public class LoginMenu {
             System.out.println("Invalid email or password.");
             return;
         }
-        //System.out.println(customer);
-
+        if (customer.isLocked()) {
+            System.out.println("Account is locked.");
+            System.out.println("Lock expires at: " + customer.getLockUntil());
+            return;
+        }
+        customer.loginSuccess();
         System.out.println("Login successful. Welcome " + customer.getFullName() + "!");
         new UserMenu().run(customer);
     }

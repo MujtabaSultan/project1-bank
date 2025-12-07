@@ -12,6 +12,7 @@ public abstract class Account implements IAccount {
     private int overdraftCount;
     private DebitCard debitCard;
     private ArrayList<Transaction> transactions;
+    private String userEMail ;
 
 
     public ArrayList<Transaction> getTransactions() {
@@ -20,6 +21,14 @@ public abstract class Account implements IAccount {
 
     public void setTransactions(ArrayList<Transaction> transactions) {
         this.transactions = transactions;
+    }
+
+    public String getUserEMail() {
+        return userEMail;
+    }
+
+    public void setUserEMail(String userEMail) {
+        this.userEMail = userEMail;
     }
 
     public Account(String customerId, String accountType, boolean isActive, double balance, DebitCard debitCard) {
@@ -92,29 +101,71 @@ public abstract class Account implements IAccount {
     public void resetOverdraft(){
         this.overdraftCount=0;
     }
-
-    @Override
     public String toString() {
-        String base = "ACCOUNT|"
-                + accountId + "|"
-                + customerId + "|"
-                + accountType + "|"
-                + balance + "|"
-                + isActive + "|"
-                + overdraftCount;
-
+        StringBuilder sb = new StringBuilder();
+        sb.append("ACCOUNT|")
+                .append(accountId).append("|")
+                .append(customerId).append("|")
+                .append(accountType).append("|")
+                .append(balance).append("|")
+                .append(isActive).append("|")
+                .append(overdraftCount);
         if (debitCard != null) {
-            return base + "|" + debitCard;
-        } else {
-            return base;
+            sb.append("|CARD|")
+                    .append(debitCard.getCardId()).append("|")
+                    .append(debitCard.getCardType()).append("|")
+                    .append(debitCard.getDailyWithdrawLimit()).append("|")
+                    .append(debitCard.getDailyDepositLimit()).append("|")
+                    .append(debitCard.getDailyTransferLimit()).append("|")
+                    .append(debitCard.getDailyOwnTransferLimit()).append("|")
+                    .append(debitCard.getDailyOwnDepositLimit()).append("|")
+                    .append(debitCard.getUsedWithdrawToday()).append("|")
+                    .append(debitCard.getUsedTransferToday()).append("|")
+                    .append(debitCard.getUsedDepositToday()).append("|")
+                    .append(debitCard.getLastResetDate());
         }
+        if (!transactions.isEmpty()) {
+            for (Transaction t : transactions) {
+                sb.append("\n").append(t.toString());
+            }
+        }
+        return sb.toString();
     }
 
-
-
+    public void setOverdraftCount(int overdraftCount) {
+        this.overdraftCount = overdraftCount;
+    }
 
     public void addTransaction(Transaction t) {
         transactions.add(t);
     }
+    public String toFileString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ACCOUNT|")
+                .append(accountId).append("|")
+                .append(customerId).append("|")
+                .append(accountType).append("|")
+                .append(balance).append("|")
+                .append(isActive).append("|")
+                .append(overdraftCount);
+
+        if (debitCard != null) {
+            sb.append("|CARD|")
+                    .append(debitCard.getCardId()).append("|")
+                    .append(debitCard.getCardType()).append("|")
+                    .append(debitCard.getDailyWithdrawLimit()).append("|")
+                    .append(debitCard.getDailyDepositLimit()).append("|")
+                    .append(debitCard.getDailyTransferLimit()).append("|")
+                    .append(debitCard.getDailyOwnTransferLimit()).append("|")
+                    .append(debitCard.getDailyOwnDepositLimit()).append("|")
+                    .append(debitCard.getUsedWithdrawToday()).append("|")
+                    .append(debitCard.getUsedTransferToday()).append("|")
+                    .append(debitCard.getUsedDepositToday()).append("|")
+                    .append(debitCard.getLastResetDate());
+        }
+
+        return sb.toString();
+    }
+
 }
 

@@ -60,4 +60,8 @@ public class Transaction {
     public void setType(String type) {
         this.type = type;
     }
+    public String toString() {
+        return "TRANSACTION|" + transactionId + "|" + accountId + "|" + type + "|" + amount + "|" + (receiver == null ? "" : receiver);
+    }
+
 }
