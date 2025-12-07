@@ -86,6 +86,34 @@ public abstract class User {
         this.id = id;
     }
 
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Integer getFailed_login_attempts() {
+        return failed_login_attempts;
+    }
+
+    public void setFailed_login_attempts(Integer failed_login_attempts) {
+        this.failed_login_attempts = failed_login_attempts;
+    }
+
+    public void setLockUntil(LocalDateTime lockUntil) {
+        this.lockUntil = lockUntil;
+    }
+
     public String getPassword() {
         return password;
     }

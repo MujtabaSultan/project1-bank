@@ -1,6 +1,5 @@
 package com.project.bank;
 import java.io.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -9,143 +8,151 @@ public class AuthService {
 
     PasswordHasher hasher = new PasswordHasher();
 
-
     public Customer register(String firstName, String lastName, String email, String password, ArrayList<Account>accounts){
         String hashed = hasher.encypt(password);
         String id = UUID.randomUUID().toString();
         Customer customer = new Customer(firstName, lastName, id, hashed, email);
 
-        try (PrintWriter pw = new PrintWriter(new FileWriter("Customer-" + email + ".txt"))) {
+        try(PrintWriter pw = new PrintWriter(new FileWriter("Customer-"+email+".txt"))){
             pw.println(firstName);
             pw.println(lastName);
             pw.println(email);
             pw.println(id);
             pw.println(hashed);
 
-            for (Account a : accounts) {
-                pw.println(a.toFileString());
-                for (Transaction t : a.getTransactions()) {
-                    pw.println(t.toString());
-                }
+            for(Account acc : accounts) {
+                pw.println("ACCOUNT:" + acc.getAccountId() + ":" + acc.getAccountType() + ":" +
+                        acc.getBalance() + ":" + acc.isActive() + ":" + acc.getDebitCard().getClass().getSimpleName());
             }
-        } catch (IOException e) {
+        } catch(IOException e){
             return null;
         }
         return customer;
     }
-    public Customer login(String email, String password) {
 
+    public Customer login(String email, String password){
         File f = new File("Customer-" + email + ".txt");
-        if (!f.exists()) return null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+        if(!f.exists()) {
+            System.out.println("Invalid email or password.");
+            return null;
+        }
 
+        try(BufferedReader br = new BufferedReader(new FileReader(f))){
             String fName = br.readLine();
             String lName = br.readLine();
-            String storedEmail = br.readLine();
+            String userEmail = br.readLine();
             String userId = br.readLine();
             String hashed = br.readLine();
 
-            if (!hasher.check(password, hashed)) return null;
+            Customer tempCustomer = new Customer(fName, lName, userId, hashed, userEmail);
 
-            Customer customer = new Customer(fName, lName, userId, hashed, storedEmail);
+            String lockLine = br.readLine();
+            if(lockLine != null && lockLine.startsWith("LOCK:")) {
+                String[] lockParts = lockLine.split(":");
+                if(lockParts.length >= 3) {
+                    try {
+                        int failedAttempts = Integer.parseInt(lockParts[1]);
+                        String lockUntilStr = lockParts[2];
 
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.startsWith("ACCOUNT|")) {
-                    Account acc = parseAccount(line,br, customer.getId());
-                    if (acc != null) customer.addAccount(acc);
+                        tempCustomer.setFailed_login_attempts(failedAttempts);
+                        if(!lockUntilStr.equals("null")) {
+                            java.time.LocalDateTime lockUntil = java.time.LocalDateTime.parse(lockUntilStr);
+                            tempCustomer.setLockUntil(lockUntil);
+                        }
+                    } catch (Exception e) {
+                    }
                 }
             }
 
-            return customer;
-
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
-    private Account parseAccount(
-            String line,
-            BufferedReader br,
-            String ownerId
-    ) throws IOException {
-
-        String[] p = line.split("\\|");
-
-        String accountId = p[1];
-        String accountCustomerId = p[2];
-        String accountType = p[3];
-        double balance = Double.parseDouble(p[4]);
-        boolean isActive = Boolean.parseBoolean(p[5]);
-        int overdraftCount = Integer.parseInt(p[6]);
-
-        DebitCard card = null;
-        if (p.length > 7 && p[7].equals("CARD")) {
-            String cardId = p[8];
-            String cardType = p[9];
-            double dailyWithdraw = Double.parseDouble(p[10]);
-            double dailyDeposit = Double.parseDouble(p[11]);
-            double dailyTransfer = Double.parseDouble(p[12]);
-            double ownTransfer = Double.parseDouble(p[13]);
-            double ownDeposit = Double.parseDouble(p[14]);
-            double usedWithdraw = Double.parseDouble(p[15]);
-            double usedTransfer = Double.parseDouble(p[16]);
-            double usedDeposit = Double.parseDouble(p[17]);
-            LocalDate lastReset = LocalDate.parse(p[18]);
-
-            switch(cardType) {
-                case "Platinium": card = new MasterCardPlatinium(cardId, accountId, ownerId); break;
-                case "Titanium": card = new MasterCardTitanium(cardId, accountId, ownerId); break;
-                case "MasterCard": card = new MasterCard(cardId, accountId, ownerId); break;
+            if(tempCustomer.isLocked()) {
+                System.out.println("Account is locked for 1 minute due to multiple failed login attempts.");
+                System.out.println("Please try again later.");
+                return null;
             }
 
-            if (card != null) {
-                card.setDailyWithdrawLimit(dailyWithdraw);
-                card.setDailyDepositLimit(dailyDeposit);
-                card.setDailyTransferLimit(dailyTransfer);
-                card.setDailyOwnTransferLimit(ownTransfer);
-                card.setDailyOwnDepositLimit(ownDeposit);
-                card.setUsedWithdrawToday(usedWithdraw);
-                card.setUsedTransferToday(usedTransfer);
-                card.setUsedDepositToday(usedDeposit);
-                card.setLastResetDate(lastReset);
+            if(hasher.check(password, hashed)){
+                tempCustomer.resetLock();
+                FileStorageService.updateCustomerLockState(email, 0, null);
+
+                Customer customer = tempCustomer;
+
+                String line;
+                while((line = br.readLine()) != null) {
+                    if(line.startsWith("ACCOUNT:")) {
+                        String[] parts = line.split(":");
+                        if(parts.length >= 6) {
+                            String accountId = parts[1];
+                            String accountType = parts[2];
+                            double balance = Double.parseDouble(parts[3]);
+                            boolean isActive = Boolean.parseBoolean(parts[4]);
+                            String cardType = parts[5];
+
+                            DebitCard card;
+                            switch(cardType) {
+                                case "MasterCardPlatinium":
+                                    card = new MasterCardPlatinium(accountId, userId, accountId);
+                                    break;
+                                case "MasterCardTitanium":
+                                    card = new MasterCardTitanium(accountId, userId, accountId);
+                                    break;
+                                default:
+                                    card = new MasterCard(accountId, userId, accountId);
+                            }
+
+                            if(parts.length >= 10) {
+                                try {
+                                    double usedWithdraw = Double.parseDouble(parts[6]);
+                                    double usedTransfer = Double.parseDouble(parts[7]);
+                                    double usedDeposit = Double.parseDouble(parts[8]);
+                                    java.time.LocalDate lastReset = java.time.LocalDate.parse(parts[9]);
+
+                                    card.setUsedWithdrawToday(usedWithdraw);
+                                    card.setUsedTransferToday(usedTransfer);
+                                    card.setUsedDepositToday(usedDeposit);
+                                    card.setLastResetDate(lastReset);
+                                } catch (Exception e) {
+                                }
+                            }
+
+                            Account account;
+                            if(accountType.equals("Checking")) {
+                                account = new CheckingAccount(userId, accountId, card);
+                            } else {
+                                account = new SavingAccount(userId, accountId, card);
+                            }
+
+                            account.setAccountId(accountId);
+                            account.setBalance(balance);
+                            account.setActive(isActive);
+
+                            FileStorageService.loadTransactions(account);
+
+                            customer.addAccount(account);
+                        }
+                    }
+                }
+
+                return customer;
+            } else {
+                tempCustomer.loginFail();
+                FileStorageService.updateCustomerLockState(email,
+                        tempCustomer.getFailedLoginAttempts(),
+                        tempCustomer.getLockUntil());
+
+                if(tempCustomer.isLocked()) {
+                    System.out.println("Too many failed login attempts!");
+                    System.out.println("Account is now locked for 1 minute.");
+                } else {
+                    int attemptsLeft = 3 - tempCustomer.getFailedLoginAttempts();
+                    System.out.println("Invalid password --" + attemptsLeft + " attempts remaining.");
+                }
             }
+
+        } catch(IOException e){
+            e.printStackTrace();
         }
 
-        Account acc = accountType.equals("Saving")
-                ? new SavingAccount(accountId, accountCustomerId, card)
-                : new CheckingAccount(accountId, accountCustomerId, card);
-
-        acc.setBalance(balance);
-        acc.setActive(isActive);
-        acc.setOverdraftCount(overdraftCount);
-        String nextLine;
-        while ((nextLine = br.readLine()) != null && nextLine.startsWith("TRANSACTION|")) {
-            String[] t = nextLine.split("\\|");
-            if (t.length >= 5) {
-                String txId = t[1];
-                String accId = t[2];
-                String type = t[3];
-                double amount = Double.parseDouble(t[4]);
-                String receiver = t[5];
-                Transaction tx = new Transaction(txId, accId, type, amount, receiver);
-                acc.addTransaction(tx);
-            }
-        }
-
-        return acc;
+        return null;
     }
-
-    private Transaction parseTransaction(String line) {
-        String[] p = line.split("\\|");
-        return new Transaction(
-                p[1],
-                p[2],
-                p[3],
-                Double.parseDouble(p[4]),
-                p[5]
-        );
-    }
-
 }

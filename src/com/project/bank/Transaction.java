@@ -41,6 +41,10 @@ public class Transaction {
         return date;
     }
 
+    public LocalDateTime getTimestamp() {
+        return date;
+    }
+
     public void setDateTime(LocalDateTime date) {
         this.date = date;
     }
@@ -60,8 +64,4 @@ public class Transaction {
     public void setType(String type) {
         this.type = type;
     }
-    public String toString() {
-        return "TRANSACTION|" + transactionId + "|" + accountId + "|" + type + "|" + amount + "|" + (receiver == null ? "" : receiver);
-    }
-
 }
