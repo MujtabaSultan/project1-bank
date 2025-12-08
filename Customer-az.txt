@@ -4,4 +4,4 @@ az
 57727b18-b5e5-4017-8a49-a43150dd20cf
 $2a$12$r1ZquQ79gLmBfAR1ptLSReY6pJO90c76pmCAotOTjsY8ccQvTYk5u
 LOCK:0:null
-ACCOUNT:eb1333bd-d8d3-48c1-bc5a-cf896c9ffdb1:Saving:5000.0:true:MasterCard:0.0:0.0:4900.0:2025-12-07
+ACCOUNT:eb1333bd-d8d3-48c1-bc5a-cf896c9ffdb1:Saving:1667.0:true:MasterCard:0.0:3333.0:0.0:2025-12-08

@@ -646,10 +646,8 @@ public class LoginMenu {
                     "Date & Time", "Type", "Amount", "Balance");
             System.out.println("----------------------------------------------------------------");
 
-            // Calculate running balance for each transaction
             double runningBalance = account.getBalance();
 
-            // Display transactions in reverse order (newest first)
             java.util.List<Transaction> transactions = new java.util.ArrayList<>(account.getTransactions());
             java.util.Collections.reverse(transactions);
 

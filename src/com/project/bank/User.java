@@ -29,7 +29,7 @@ public abstract class User {
 
 
 
-    public boolean checkPassword( String inputPass){
+    public boolean checkPassword(String inputPass){
         PasswordHasher hasher = new PasswordHasher();
         return hasher.check(inputPass, password);
     }
@@ -40,17 +40,8 @@ public abstract class User {
         lockUntil=null;
         failed_login_attempts=0;
     }
-    public boolean isLocked() {
-        if (lockUntil != null && LocalDateTime.now().isBefore(lockUntil)) {
-            return true;
-        } else if (lockUntil != null && LocalDateTime.now().isAfter(lockUntil)) {
-            resetLock();
-        }
-        return false;
-    }
-    public void loginSuccess() {
-        // i probably will not even use this , ill see
-        resetLock();
+    public boolean isLocked(){
+        return lockUntil != null && LocalDateTime.now().isBefore(lockUntil);
     }
     public void loginFail(){
         failed_login_attempts++;
@@ -86,50 +77,27 @@ public abstract class User {
         this.id = id;
     }
 
-    public String getLast_name() {
-        return last_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public Integer getFailed_login_attempts() {
-        return failed_login_attempts;
-    }
-
-    public void setFailed_login_attempts(Integer failed_login_attempts) {
-        this.failed_login_attempts = failed_login_attempts;
-    }
-
-    public void setLockUntil(LocalDateTime lockUntil) {
-        this.lockUntil = lockUntil;
-    }
-
     public String getPassword() {
         return password;
     }
-    public LocalDateTime getLockUntil() {
-        return lockUntil;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Integer getFailedLoginAttempts() {
         return failed_login_attempts;
     }
 
-    public String getEmail() {
-        return email;
+    public void setFailedLoginAttempts(Integer attempts) {
+        this.failed_login_attempts = attempts;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public LocalDateTime getLockUntil() {
+        return lockUntil;
+    }
+
+    public void setLockUntil(LocalDateTime lockUntil) {
+        this.lockUntil = lockUntil;
     }
 }

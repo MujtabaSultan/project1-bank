@@ -51,7 +51,6 @@ public class BankService {
         if(card.deposit(amount, true)){
             account.setBalance(account.getBalance() + amount);
 
-            // Log transaction
             Transaction transaction = new Transaction(
                     UUID.randomUUID().toString(),
                     account.getAccountId(),
@@ -63,7 +62,6 @@ public class BankService {
             FileStorageService.saveTransaction(account, transaction);
 
             System.out.println("Deposit successful! New balance: $" + String.format("%.2f", account.getBalance()));
-            System.out.println("Transaction logged to file");
             return true;
         }
         return false;
@@ -78,7 +76,6 @@ public class BankService {
         if(card.deposit(amount, false)){
             account.setBalance(account.getBalance() + amount);
 
-            // Log transaction
             Transaction transaction = new Transaction(
                     UUID.randomUUID().toString(),
                     account.getAccountId(),
@@ -89,8 +86,7 @@ public class BankService {
             account.addTransaction(transaction);
             FileStorageService.saveTransaction(account, transaction);
 
-            System.out.println("Deposit successful! New balance: $" + String.format("%.2f", account.getBalance()));
-            System.out.println("Transaction logged to file");
+            System.out.println("Deposit successful!");
             return true;
         } else {
             System.out.println("Deposit failed! Daily limit exceeded.");
@@ -120,7 +116,6 @@ public class BankService {
             from.setBalance(newFromBalance);
             to.setBalance(to.getBalance() + amount);
 
-            // Log transactions
             String transactionId = UUID.randomUUID().toString();
 
             Transaction outTransaction = new Transaction(
@@ -144,9 +139,7 @@ public class BankService {
             FileStorageService.saveTransaction(to, inTransaction);
 
             System.out.println("Transfer successful!");
-            System.out.println("From balance: $" + String.format("%.2f", from.getBalance()));
-            System.out.println("To balance: $" + String.format("%.2f", to.getBalance()));
-            System.out.println("Transactions logged to files");
+            System.out.println("current balance: $" + String.format("%.2f", from.getBalance()));
             return true;
         } else {
             double limit = isOwnAccount ? card.getDailyOwnTransferLimit() : card.getDailyTransferLimit();

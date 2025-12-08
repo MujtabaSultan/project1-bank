@@ -1,5 +1,6 @@
 package com.project.bank;
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -20,6 +21,7 @@ public class AuthService {
             pw.println(id);
             pw.println(hashed);
 
+            pw.println("LOCK:0:null");
             for(Account acc : accounts) {
                 pw.println("ACCOUNT:" + acc.getAccountId() + ":" + acc.getAccountType() + ":" +
                         acc.getBalance() + ":" + acc.isActive() + ":" + acc.getDebitCard().getClass().getSimpleName());
@@ -47,26 +49,33 @@ public class AuthService {
 
             Customer tempCustomer = new Customer(fName, lName, userId, hashed, userEmail);
 
-            String lockLine = br.readLine();
-            if(lockLine != null && lockLine.startsWith("LOCK:")) {
-                String[] lockParts = lockLine.split(":");
+            String nextLine = br.readLine();
+            String firstAccountLine = null;
+
+            if(nextLine != null && nextLine.startsWith("LOCK:")) {
+                String[] lockParts = nextLine.split(":", 3);
                 if(lockParts.length >= 3) {
                     try {
                         int failedAttempts = Integer.parseInt(lockParts[1]);
                         String lockUntilStr = lockParts[2];
 
-                        tempCustomer.setFailed_login_attempts(failedAttempts);
+                        tempCustomer.setFailedLoginAttempts(failedAttempts);
                         if(!lockUntilStr.equals("null")) {
-                            java.time.LocalDateTime lockUntil = java.time.LocalDateTime.parse(lockUntilStr);
+                            LocalDateTime lockUntil = LocalDateTime.parse(lockUntilStr);
                             tempCustomer.setLockUntil(lockUntil);
                         }
                     } catch (Exception e) {
                     }
                 }
+            } else {
+
+                tempCustomer.setFailedLoginAttempts(0);
+                tempCustomer.setLockUntil(null);
+                firstAccountLine = nextLine;
             }
 
             if(tempCustomer.isLocked()) {
-                System.out.println("Account is locked for 1 minute due to multiple failed login attempts.");
+                System.out.println("Account is locked for 1 minute.");
                 System.out.println("Please try again later.");
                 return null;
             }
@@ -77,59 +86,14 @@ public class AuthService {
 
                 Customer customer = tempCustomer;
 
+                if(firstAccountLine != null && firstAccountLine.startsWith("ACCOUNT:")) {
+                    processAccountLine(firstAccountLine, customer, userId);
+                }
+
                 String line;
                 while((line = br.readLine()) != null) {
                     if(line.startsWith("ACCOUNT:")) {
-                        String[] parts = line.split(":");
-                        if(parts.length >= 6) {
-                            String accountId = parts[1];
-                            String accountType = parts[2];
-                            double balance = Double.parseDouble(parts[3]);
-                            boolean isActive = Boolean.parseBoolean(parts[4]);
-                            String cardType = parts[5];
-
-                            DebitCard card;
-                            switch(cardType) {
-                                case "MasterCardPlatinium":
-                                    card = new MasterCardPlatinium(accountId, userId, accountId);
-                                    break;
-                                case "MasterCardTitanium":
-                                    card = new MasterCardTitanium(accountId, userId, accountId);
-                                    break;
-                                default:
-                                    card = new MasterCard(accountId, userId, accountId);
-                            }
-
-                            if(parts.length >= 10) {
-                                try {
-                                    double usedWithdraw = Double.parseDouble(parts[6]);
-                                    double usedTransfer = Double.parseDouble(parts[7]);
-                                    double usedDeposit = Double.parseDouble(parts[8]);
-                                    java.time.LocalDate lastReset = java.time.LocalDate.parse(parts[9]);
-
-                                    card.setUsedWithdrawToday(usedWithdraw);
-                                    card.setUsedTransferToday(usedTransfer);
-                                    card.setUsedDepositToday(usedDeposit);
-                                    card.setLastResetDate(lastReset);
-                                } catch (Exception e) {
-                                }
-                            }
-
-                            Account account;
-                            if(accountType.equals("Checking")) {
-                                account = new CheckingAccount(userId, accountId, card);
-                            } else {
-                                account = new SavingAccount(userId, accountId, card);
-                            }
-
-                            account.setAccountId(accountId);
-                            account.setBalance(balance);
-                            account.setActive(isActive);
-
-                            FileStorageService.loadTransactions(account);
-
-                            customer.addAccount(account);
-                        }
+                        processAccountLine(line, customer, userId);
                     }
                 }
 
@@ -145,7 +109,7 @@ public class AuthService {
                     System.out.println("Account is now locked for 1 minute.");
                 } else {
                     int attemptsLeft = 3 - tempCustomer.getFailedLoginAttempts();
-                    System.out.println("Invalid password --" + attemptsLeft + " attempts remaining.");
+                    System.out.println("Invalid password. " + attemptsLeft + " attempt(s) remaining.");
                 }
             }
 
@@ -154,5 +118,68 @@ public class AuthService {
         }
 
         return null;
+    }
+
+    private void processAccountLine(String line, Customer customer, String userId) {
+        String[] parts = line.split(":");
+        if(parts.length >= 6) {
+            String accountId = parts[1];
+            String accountType = parts[2];
+            double balance = Double.parseDouble(parts[3]);
+            boolean isActive = Boolean.parseBoolean(parts[4]);
+            String cardType = parts[5];
+
+            DebitCard card;
+            switch(cardType) {
+                case "MasterCardPlatinium":
+                    card = new MasterCardPlatinium(accountId, userId, accountId);
+                    break;
+                case "MasterCardTitanium":
+                    card = new MasterCardTitanium(accountId, userId, accountId);
+                    break;
+                default:
+                    card = new MasterCard(accountId, userId, accountId);
+            }
+
+            if(parts.length >= 10) {
+                try {
+                    double usedWithdraw = Double.parseDouble(parts[6]);
+                    double usedTransfer = Double.parseDouble(parts[7]);
+                    double usedDeposit = Double.parseDouble(parts[8]);
+                    java.time.LocalDate lastReset = java.time.LocalDate.parse(parts[9]);
+
+                    card.setUsedWithdrawToday(usedWithdraw);
+                    card.setUsedTransferToday(usedTransfer);
+                    card.setUsedDepositToday(usedDeposit);
+                    card.setLastResetDate(lastReset);
+                } catch (Exception e) {
+                }
+            }
+
+            Account account;
+            if(accountType.equals("Checking")) {
+                account = new CheckingAccount(userId, accountId, card);
+            } else {
+                account = new SavingAccount(userId, accountId, card);
+            }
+
+            account.setAccountId(accountId);
+            account.setBalance(balance);
+            account.setActive(isActive);
+
+            if(parts.length >= 11) {
+                try {
+                    int overdraftCount = Integer.parseInt(parts[10]);
+                    for(int i = 0; i < overdraftCount; i++) {
+                        account.incrementOverdraft();
+                    }
+                } catch (Exception e) {
+                }
+            }
+
+            FileStorageService.loadTransactions(account);
+
+            customer.addAccount(account);
+        }
     }
 }
