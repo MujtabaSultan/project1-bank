@@ -1,0 +1,7 @@
+salem
+salem
+salem
+be8d2d1b-b528-498a-b4ba-c8ee5c1af3cf
+$2a$12$wOMqIPve6YM7d8QzfHUrLuue36r9EKtNiMwIPBuNbyEF2F4wsHsEG
+LOCK:0:null
+ACCOUNT:b550da97-0b5e-48c9-8777-6683355785af:Saving:30.0:true:MasterCard:0.0:0.0:0.0:0.0:10.0:2025-12-08:0

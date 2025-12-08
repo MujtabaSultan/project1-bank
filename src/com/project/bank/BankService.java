@@ -116,7 +116,7 @@ public class BankService {
             account.addTransaction(transaction);
             FileStorageService.saveTransaction(account, transaction);
 
-            System.out.println("deposit successful! New balance: $ " +  account.getBalance());
+            System.out.println("deposit successful! ");
             return true;
         } else {
             System.out.println("deposit failed! Daily limit exceeded.");

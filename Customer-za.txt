@@ -1,0 +1,8 @@
+za
+za
+za
+93bd4d67-ad2a-4bef-8d16-ea6634b41005
+$2a$12$0mo4KOooZBAPoymP4lB1UOqShnLsekjR9XlSt1PmdQF83.pSyGvaq
+LOCK:0:null
+ACCOUNT:292d8044-0774-42a3-9f95-767be6c146d0:Saving:15092.0:true:MasterCard:5000.0:0.0:20.0:20000.0:112.0:2025-12-08:0
+ACCOUNT:5ceda238-6391-4321-8978-2aba2f5beb63:Checking:200000.0:true:MasterCardTitanium:0.0:0.0:0.0:200000.0:0.0:2025-12-08:0
