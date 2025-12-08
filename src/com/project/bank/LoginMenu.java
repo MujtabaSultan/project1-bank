@@ -16,21 +16,20 @@ public class LoginMenu {
             System.out.println("3. Exit");
             System.out.print("Choose: ");
 
-            int choice = sc.nextInt();
-            sc.nextLine();
+            String choice = sc.nextLine().trim();
 
             switch (choice) {
-                case 1:
+                case "1":
                     login();
                     break;
-                case 2:
+                case "2":
                     register();
                     break;
-                case 3:
+                case "3":
                     System.out.println("have a good day.");
                     return;
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("Invalid choice. Please try again.");
                     System.out.println();
             }
         }
@@ -59,59 +58,44 @@ public class LoginMenu {
         int selectionAccTypes = sc.nextInt();
         sc.nextLine();
 
-        Account accType;
-        MasterCard mockCard = new MasterCard("s", "S", "s");
-
-        switch (selectionAccTypes) {
-            case 1:
-                accType = new SavingAccount("1", "1", mockCard);
-                break;
-            case 2:
-                accType = new CheckingAccount("1", "1", mockCard);
-                break;
-            case 3:
-                accType = new SavingAccount("1", "1", mockCard);
-                break;
-            default:
-                accType = new SavingAccount("1", "1", mockCard);
-        }
-
-        System.out.println("Select card type (number please 1-3):");
-        System.out.println("1-MasterCard");
-        System.out.println("2-Titanium MasterCard");
-        System.out.println("3-Platinium MasterCard");
-
-        int selectCardType = sc.nextInt();
-        sc.nextLine();
-
-        String cardType;
-        DebitCard card;
-        switch (selectCardType) {
-            case 1:
-                cardType = "1";
-                card = new MasterCard("010", "10", "1");
-                break;
-            case 2:
-                cardType = "2";
-                card = new MasterCardTitanium("11", "10", "1");
-                break;
-            case 3:
-                cardType = "3";
-                card = new MasterCardPlatinium("11", "10", "1");
-                break;
-            default:
-                cardType = "MasterCard";
-                card = new MasterCard("11", "10", "1");
-                break;
-        }
-
         if (confPass.equals(pass)) {
             ArrayList<Account> accounts = new ArrayList<>();
-            accounts.add(accType);
 
             if (selectionAccTypes == 3) {
+                System.out.println("Select card type for Saving account (1-3):");
+                System.out.println("1-MasterCard");
+                System.out.println("2-Titanium MasterCard");
+                System.out.println("3-Platinium MasterCard");
+                int selectCardType1 = sc.nextInt();
+                sc.nextLine();
+
+                DebitCard card1;
+                switch (selectCardType1) {
+                    case 1:
+                        card1 = new MasterCard("010", "10", "1");
+                        break;
+                    case 2:
+                        card1 = new MasterCardTitanium("11", "10", "1");
+                        break;
+                    case 3:
+                        card1 = new MasterCardPlatinium("11", "10", "1");
+                        break;
+                    default:
+                        card1 = new MasterCard("11", "10", "1");
+                        break;
+                }
+                SavingAccount savingAccount = new SavingAccount("1", "1", card1);
+                accounts.add(savingAccount);
+
+                System.out.println("Select card type for Checking account (1-3):");
+                System.out.println("1-MasterCard");
+                System.out.println("2-Titanium MasterCard");
+                System.out.println("3-Platinium MasterCard");
+                int selectCardType2 = sc.nextInt();
+                sc.nextLine();
+
                 DebitCard card2;
-                switch (selectCardType) {
+                switch (selectCardType2) {
                     case 1:
                         card2 = new MasterCard("010", "10", "1");
                         break;
@@ -125,8 +109,44 @@ public class LoginMenu {
                         card2 = new MasterCard("11", "10", "1");
                         break;
                 }
-                CheckingAccount secondAccount = new CheckingAccount("1", "1", card2);
-                accounts.add(secondAccount);
+                CheckingAccount checkingAccount = new CheckingAccount("1", "1", card2);
+                accounts.add(checkingAccount);
+            } else {
+                System.out.println("Select card type (number please 1-3):");
+                System.out.println("1-MasterCard");
+                System.out.println("2-Titanium MasterCard");
+                System.out.println("3-Platinium MasterCard");
+                int selectCardType = sc.nextInt();
+                sc.nextLine();
+
+                DebitCard card;
+                switch (selectCardType) {
+                    case 1:
+                        card = new MasterCard("010", "10", "1");
+                        break;
+                    case 2:
+                        card = new MasterCardTitanium("11", "10", "1");
+                        break;
+                    case 3:
+                        card = new MasterCardPlatinium("11", "10", "1");
+                        break;
+                    default:
+                        card = new MasterCard("11", "10", "1");
+                        break;
+                }
+
+                Account accType;
+                switch (selectionAccTypes) {
+                    case 1:
+                        accType = new SavingAccount("1", "1", card);
+                        break;
+                    case 2:
+                        accType = new CheckingAccount("1", "1", card);
+                        break;
+                    default:
+                        accType = new SavingAccount("1", "1", card);
+                }
+                accounts.add(accType);
             }
 
             Customer c = auth.register(first, last, email, pass, accounts);
@@ -162,6 +182,7 @@ public class LoginMenu {
         if (customer == null) {
             return;
         }
+
         System.out.println("Login successful. Welcome " + customer.getFullName() + "!");
         customerMenu(customer, email);
     }
@@ -181,36 +202,35 @@ public class LoginMenu {
             System.out.println("8. Logout");
             System.out.print("Choose: ");
 
-            int choice = sc.nextInt();
-            sc.nextLine();
+            String choice = sc.nextLine().trim();
 
             switch (choice) {
-                case 1:
+                case "1":
                     viewAccounts(customer);
                     break;
-                case 2:
+                case "2":
                     depositMoney(customer, bankService, email);
                     break;
-                case 3:
+                case "3":
                     withdrawMoney(customer, bankService, email);
                     break;
-                case 4:
+                case "4":
                     transferMoney(customer, bankService, email);
                     break;
-                case 5:
+                case "5":
                     viewTransactionHistory(customer);
                     break;
-                case 6:
+                case "6":
                     filterTransactions(customer);
                     break;
-                case 7:
+                case "7":
                     viewBankStatement(customer);
                     break;
-                case 8:
+                case "8":
                     System.out.println("Logged out successfully.");
                     return;
                 default:
-                    System.out.println("Invalid choice.");
+                    System.out.println("Invalid choice. Please try again.");
             }
         }
     }
@@ -244,7 +264,6 @@ public class LoginMenu {
         sc.nextLine();
 
         if (depositChoice == 1) {
-            // Deposit to own account
             viewAccounts(customer);
             System.out.print("Select account (number): ");
             int accIndex = sc.nextInt() - 1;
@@ -265,7 +284,7 @@ public class LoginMenu {
                 FileStorageService.updateCustomerFile(customer, email);
             }
         } else if (depositChoice == 2) {
-            System.out.print("Enter target email: ");
+            System.out.print("Enter recipient's email: ");
             String recipientEmail = sc.nextLine();
 
             Customer recipient = auth.login(recipientEmail, "");
@@ -274,7 +293,7 @@ public class LoginMenu {
             }
 
             if (recipient == null || recipient.getAccounts().isEmpty()) {
-                System.out.println("Recipient not found or has no accounts.");
+                System.out.println(" Recipient not found or has no accounts.");
                 return;
             }
 
@@ -321,7 +340,6 @@ public class LoginMenu {
 
             Customer customer = new Customer(fName, lName, userId, hashed, userEmail);
 
-            // Load accounts
             String line;
             while((line = br.readLine()) != null) {
                 if(line.startsWith("ACCOUNT:")) {
@@ -333,7 +351,6 @@ public class LoginMenu {
                         boolean isActive = Boolean.parseBoolean(parts[4]);
                         String cardType = parts[5];
 
-                        // Create debit card based on type
                         DebitCard card;
                         switch(cardType) {
                             case "MasterCardPlatinium":
@@ -346,16 +363,20 @@ public class LoginMenu {
                                 card = new MasterCard(accountId, userId, accountId);
                         }
 
-                        if(parts.length >= 10) {
+                        if(parts.length >= 12) {
                             try {
                                 double usedWithdraw = Double.parseDouble(parts[6]);
-                                double usedTransfer = Double.parseDouble(parts[7]);
-                                double usedDeposit = Double.parseDouble(parts[8]);
-                                java.time.LocalDate lastReset = java.time.LocalDate.parse(parts[9]);
+                                double usedOwnTransfer = Double.parseDouble(parts[7]);
+                                double usedExternalTransfer = Double.parseDouble(parts[8]);
+                                double usedOwnDeposit = Double.parseDouble(parts[9]);
+                                double usedExternalDeposit = Double.parseDouble(parts[10]);
+                                java.time.LocalDate lastReset = java.time.LocalDate.parse(parts[11]);
 
                                 card.setUsedWithdrawToday(usedWithdraw);
-                                card.setUsedTransferToday(usedTransfer);
-                                card.setUsedDepositToday(usedDeposit);
+                                card.setUsedOwnTransferToday(usedOwnTransfer);
+                                card.setUsedExternalTransferToday(usedExternalTransfer);
+                                card.setUsedOwnDepositToday(usedOwnDeposit);
+                                card.setUsedExternalDepositToday(usedExternalDeposit);
                                 card.setLastResetDate(lastReset);
                             } catch (Exception e) {
                             }
@@ -371,6 +392,16 @@ public class LoginMenu {
                         account.setAccountId(accountId);
                         account.setBalance(balance);
                         account.setActive(isActive);
+
+                        if(parts.length >= 13) {
+                            try {
+                                int overdraftCount = Integer.parseInt(parts[12]);
+                                for(int i = 0; i < overdraftCount; i++) {
+                                    account.incrementOverdraft();
+                                }
+                            } catch (Exception e) {
+                            }
+                        }
 
                         FileStorageService.loadTransactions(account);
 
@@ -465,7 +496,7 @@ public class LoginMenu {
             recipient = loadCustomerByEmail(recipientEmail);
 
             if (recipient == null || recipient.getAccounts().isEmpty()) {
-                System.out.println("✗ Recipient not found or has no accounts.");
+                System.out.println(" Recipient not found or has no accounts.");
                 return;
             }
 
@@ -656,7 +687,7 @@ public class LoginMenu {
             }
 
             System.out.println("----------------------------------------------------------------");
-            System.out.println("Total Transactions:" + account.getTransactions().size());
+            System.out.println("Total Transactions: " + account.getTransactions().size());
         }
 
         System.out.println();
