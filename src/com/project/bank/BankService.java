@@ -90,8 +90,13 @@ public class BankService {
 
             System.out.println("deposit successful ,  New balance: $ " + account.getBalance());
             return true;
+        } else {
+            System.out.println("deposit failed, Daily limit exceeded.");
+            System.out.println("daily limit: $ " + card.getDailyOwnDepositLimit());
+            System.out.println("already used today: $ " + card.getUsedOwnDepositToday());
+            System.out.println("requested amount: $" + amount);
+            return false;
         }
-        return false;
     }
 
     public boolean deposit(double amount, Account account){
