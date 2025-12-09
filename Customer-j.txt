@@ -1,0 +1,7 @@
+j
+j
+j
+3d48beaa-aaf0-4f07-b3ef-5b3192df80bc
+$2a$12$VQf6ee9u9tSKmWMcVyxx..7oeHtdh13jf5RBGXusszjvMbcaz4Hke
+LOCK:0:null
+ACCOUNT:cd648154-03b2-4dcf-9174-0aa609291a3a:Saving:-1222.0:false:MasterCard:100.0:0.0:4052.0:3000.0:0.0:2025-12-09:2

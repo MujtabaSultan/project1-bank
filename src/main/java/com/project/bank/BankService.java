@@ -138,6 +138,14 @@ public class BankService {
             System.out.println("Source account is not active");
             return false;
         }
+
+        if(from.getBalance() < 0 && amount > 100) {
+            System.out.println("transfer failed! Account has negative balance.");
+            System.out.println("maximum transfer allowed: $100.00");
+            System.out.println("requested amount: $" + String.format("%.2f", amount));
+            return false;
+        }
+
         boolean isOwnAccount = from.getCustomerId().equals(to.getCustomerId());
         if(card.transfer(amount, isOwnAccount)){
             double currentBalance = from.getBalance();
@@ -148,6 +156,17 @@ public class BankService {
                 newFromBalance -= 35;
                 System.out.println("fee of $35 applied.");
                 System.out.println("overdraft count: " + from.getOverdraftCount());
+
+                if(from.getOverdraftCount() >= 2){
+                    from.setActive(false);
+                    System.out.println("account locked beacuse of 2 overdrafts , deposit or transer into this account and make its balance positive to restore it.");
+                }
+            }
+            else if(currentBalance < 0){
+                from.incrementOverdraft();
+                newFromBalance -= 35;
+                System.out.println("overdraft fee of $35 applied");
+                System.out.println("overdraft count:" + from.getOverdraftCount());
 
                 if(from.getOverdraftCount() >= 2){
                     from.setActive(false);
@@ -182,7 +201,6 @@ public class BankService {
 
             System.out.println("transfer successful");
             System.out.println("from balance: $ " + from.getBalance());
-            System.out.println("to balance: $ " +to.getBalance());
             return true;
         } else {
             double limit = isOwnAccount ? card.getDailyOwnTransferLimit() : card.getDailyTransferLimit();
