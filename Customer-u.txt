@@ -1,0 +1,8 @@
+u
+u
+u
+d35329da-1cf6-4155-a95f-1f09c5ea34c1
+$2a$12$hBKpUtNLntWFOuf0B2F/cu.yMEdNY/UNQvticMcQGmyED2vPCnFvS
+LOCK:0:null
+BANKER:false
+ACCOUNT:722799f0-db3f-4c67-a05f-e0b1ebeb2ec7:Saving:-70.0:false:MasterCard:12.0:0.0:21.0:33.0:0.0:2025-12-10:2

@@ -287,13 +287,11 @@ public class LoginMenu {
                 FileStorageService.updateCustomerFile(customer, email);
             }
         } else if (depositChoice == 2) {
-            System.out.print("Enter recipient's email: ");
+            System.out.print("Enter recipient email: ");
             String recipientEmail = sc.nextLine();
 
-            Customer recipient = auth.login(recipientEmail, "");
-            if (recipient == null) {
-                recipient = loadCustomerByEmail(recipientEmail);
-            }
+            Customer recipient=loadCustomerByEmail(recipientEmail);
+
 
             if (recipient == null || recipient.getAccounts().isEmpty()) {
                 System.out.println(" Recipient not found or has no accounts.");
@@ -500,7 +498,7 @@ public class LoginMenu {
             recipient = customer;
             recipientEmail = email;
         } else if (transferChoice == 2) {
-            System.out.print("Enter recipient's email: ");
+            System.out.print("Enter recipients email: ");
             recipientEmail = sc.nextLine();
 
             recipient = loadCustomerByEmail(recipientEmail);
@@ -626,7 +624,7 @@ public class LoginMenu {
         long count = account.getTransactions().stream()
                 .filter(filter::test)
                 .peek(t -> System.out.println(t.getTimestamp() + " | " + t.getType() +
-                        " | $" + String.format("%.2f", t.getAmount())))
+                        " | $" +t.getAmount()))
                 .count();
 
         if (count == 0) {

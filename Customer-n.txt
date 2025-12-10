@@ -1,0 +1,8 @@
+n
+n
+n
+593331aa-4cad-46a0-9934-eff6ce467fba
+$2a$12$VfvEU8ltOjU6.cCHyGZ6vet.yJ58MB8C0SuEHRBiz6wVxadzNi5xi
+LOCK:0:null
+BANKER:false
+ACCOUNT:58cbefd8-d2c9-469a-8395-747a51a99b58:Saving:58.0:true:MasterCard:0.0:0.0:23.0:80.0:0.0:2025-12-10:0

@@ -4,4 +4,5 @@ b
 5330e571-891a-4d44-8372-f0c22922330b
 $2a$12$rxegJL5XK2eVe2rMdouqAO7pV2.0OUBAApmhmN7C1haWX39fXolBa
 LOCK:0:null
-ACCOUNT:acb46db3-9328-4ff9-a91a-b081123bb40f:Saving:-100.0:true:MasterCard:100.0:0.0:0.0:2025-12-08
+BANKER:false
+ACCOUNT:acb46db3-9328-4ff9-a91a-b081123bb40f:Saving:-77.0:true:MasterCard:0.0:0.0:0.0:0.0:0.0:2025-12-10:0

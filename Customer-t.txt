@@ -4,4 +4,5 @@ t
 d2386f34-00de-4c94-8d2d-742465b03167
 $2a$12$/GtxcHk3QL1mf.5jF4pJoOfAp8253LgeukkV5cEAOpTwlCqnk4JtS
 LOCK:0:null
-ACCOUNT:9c128cfd-b93a-4402-b651-9e93bbc3c5ee:Checking:-3067.0:true:MasterCardTitanium:0.0:0.0:7032.0:4000.0:0.0:2025-12-09:1
+BANKER:false
+ACCOUNT:9c128cfd-b93a-4402-b651-9e93bbc3c5ee:Checking:-3055.0:true:MasterCardTitanium:0.0:0.0:0.0:1.0:0.0:2025-12-10:1

@@ -5,8 +5,13 @@ import java.util.UUID;
 public class BankService {
 
     public boolean withdraw(Account account, double amount){
+
         if(!account.isActive()) {
             System.out.println("Account is not active");
+            return false;
+        }
+        if(amount <= 0) {
+            System.out.println("Amount must be positive");
             return false;
         }
 
@@ -68,9 +73,14 @@ public class BankService {
     }
     public boolean selfdeposit(double amount, Account account){
         DebitCard card = account.getDebitCard();
+        if(amount <= 0) {
+            System.out.println("Amount must be positive");
+            return false;
+        }
         if(card.deposit(amount, true)){
             double newBalance = account.getBalance() + amount;
             account.setBalance(newBalance);
+
 
             if(!account.isActive() && newBalance >= 0){
                 account.setActive(true);
@@ -100,6 +110,10 @@ public class BankService {
     }
 
     public boolean deposit(double amount, Account account){
+        if(amount <= 0) {
+            System.out.println("Amount must be positive");
+            return false;
+        }
         DebitCard card = account.getDebitCard();
         if(card.deposit(amount, false)){
             double newBalance = account.getBalance() + amount;
@@ -134,10 +148,15 @@ public class BankService {
 
     public boolean transfer(Account from, Account to, double amount){
         DebitCard card = from.getDebitCard();
+        if(amount <= 0) {
+            System.out.println("Amount must be positive");
+            return false;
+        }
         if(!from.isActive()) {
             System.out.println("Source account is not active");
             return false;
         }
+
 
         if(from.getBalance() < 0 && amount > 100) {
             System.out.println("transfer failed! Account has negative balance.");
