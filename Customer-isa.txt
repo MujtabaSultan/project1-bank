@@ -1,0 +1,8 @@
+isa
+isa
+isa
+6685649b-611b-4565-b875-83aacfeff31a
+$2a$12$ZL04J5lQ8Cfbf9cq6FEXg.HSduD6bZIQH5lTYvaOMWghUpSYi3XwK
+LOCK:0:null
+BANKER:false
+ACCOUNT:c7ae7849-be40-424a-b129-ce62034cc229:Saving:20000.0:true:MasterCard:0.0:0.0:0.0:20000.0:0.0:2025-12-10:0

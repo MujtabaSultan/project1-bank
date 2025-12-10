@@ -28,6 +28,7 @@ public class AuthService {
             pw.println(hashed);
 
             pw.println("LOCK:0:null");
+            pw.println("BANKER:" + customer.isBanker());
 
             for(Account acc : accounts) {
                 pw.println("ACCOUNT:" + acc.getAccountId() + ":" + acc.getAccountType() + ":" +
@@ -101,6 +102,13 @@ public class AuthService {
                 while((line = br.readLine()) != null) {
                     if(line.startsWith("ACCOUNT:")) {
                         processAccountLine(line, customer, userId);
+                    } else if(line.startsWith("BANKER:")) {
+                        try {
+                            boolean isBanker = Boolean.parseBoolean(line.split(":")[1]);
+                            customer.setIsBanker(isBanker);
+                        } catch (Exception e) {
+                            customer.setIsBanker(false);
+                        }
                     }
                 }
 
@@ -169,9 +177,9 @@ public class AuthService {
 
             Account account;
             if(accountType.equals("Checking")) {
-                account = new CheckingAccount(userId, accountId, card);
+                account = new CheckingAccount(accountId, userId, card);
             } else {
-                account = new SavingAccount(userId, accountId, card);
+                account = new SavingAccount(accountId, userId, card);
             }
 
             account.setAccountId(accountId);

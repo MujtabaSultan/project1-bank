@@ -200,7 +200,7 @@ public class BankService {
             FileStorageService.saveTransaction(to, inTransaction);
 
             System.out.println("transfer successful");
-            System.out.println("from balance: $ " + from.getBalance());
+            System.out.println("current balance: $ " + from.getBalance());
             return true;
         } else {
             double limit = isOwnAccount ? card.getDailyOwnTransferLimit() : card.getDailyTransferLimit();

@@ -1,0 +1,7 @@
+d
+d
+d
+5544847f-4787-409f-b410-bc80e5f1e807
+$2a$12$WXvzhojPSIBfkDR6DL2n7u77Lxj2eS/wa.D25p2bQINbHhRdW.RhW
+LOCK:0:null
+ACCOUNT:c8a68c83-b31f-461a-a0c4-70adba922d07:Saving:1400.0:true:MasterCard:500.0:0.0:100.0:2000.0:0.0:2025-12-09:0

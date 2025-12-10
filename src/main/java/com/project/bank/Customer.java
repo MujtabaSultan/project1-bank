@@ -9,11 +9,13 @@ public class Customer extends User{
 
     private String status ;
     private ArrayList<Account> accounts;
+    private boolean isBanker;
 
     public Customer(String firstName, String lastName, String id, String password,String email) {
         super(firstName, lastName, "Customer", id, password,email);
         this.status = "Active";
         this.accounts = new ArrayList<>();
+        this.isBanker = false;
     }
 
 
@@ -35,5 +37,13 @@ public class Customer extends User{
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isBanker() {
+        return isBanker;
+    }
+
+    public void setIsBanker(boolean isBanker) {
+        this.isBanker = isBanker;
     }
 }

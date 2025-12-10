@@ -51,14 +51,15 @@ public class LoginMenu {
         System.out.print("confirm password: ");
         String confPass = sc.nextLine();
 
-        System.out.println("select an option 1-3");
-        System.out.println("1-Saving account");
-        System.out.println("2-checking account");
-        System.out.println("3-both");
-        int selectionAccTypes = sc.nextInt();
-        sc.nextLine();
+
 
         if (confPass.equals(pass)) {
+            System.out.println("select an option 1-3");
+            System.out.println("1-Saving account");
+            System.out.println("2-checking account");
+            System.out.println("3-both");
+            int selectionAccTypes = sc.nextInt();
+            sc.nextLine();
             ArrayList<Account> accounts = new ArrayList<>();
 
             if (selectionAccTypes == 3) {
@@ -183,7 +184,7 @@ public class LoginMenu {
             return;
         }
 
-        System.out.println("Login successful. Welcome " + customer.getFullName() + "!");
+        System.out.println("Login successful " + customer.getFullName() );
         customerMenu(customer, email);
     }
 
@@ -191,7 +192,9 @@ public class LoginMenu {
         BankService bankService = new BankService();
 
         while (true) {
-            System.out.println("\n----- Customer Menu -----");
+            boolean banker = customer.isBanker();
+            String menuType= banker?"Banker":"Customer";
+            System.out.println("\n----- "+menuType+" Menu -----");
             System.out.println("1. View Accounts");
             System.out.println("2. Deposit Money");
             System.out.println("3. Withdraw Money");
@@ -384,9 +387,9 @@ public class LoginMenu {
 
                         Account account;
                         if(accountType.equals("Checking")) {
-                            account = new CheckingAccount(userId, accountId, card);
+                            account = new CheckingAccount(accountId, userId, card);
                         } else {
-                            account = new SavingAccount(userId, accountId, card);
+                            account = new SavingAccount(accountId, userId, card);
                         }
 
                         account.setAccountId(accountId);
@@ -406,6 +409,13 @@ public class LoginMenu {
                         FileStorageService.loadTransactions(account);
 
                         customer.addAccount(account);
+                    }
+                } else if(line.startsWith("BANKER:")) {
+                    try {
+                        boolean isBanker = Boolean.parseBoolean(line.split(":")[1]);
+                        customer.setIsBanker(isBanker);
+                    } catch (Exception e) {
+                        customer.setIsBanker(false);
                     }
                 }
             }
