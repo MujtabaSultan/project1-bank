@@ -3,6 +3,7 @@ package com.project.bank;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.io.*;
+import java.util.Optional;
 
 
 public class Customer extends User{
@@ -45,5 +46,8 @@ public class Customer extends User{
 
     public void setIsBanker(boolean isBanker) {
         this.isBanker = isBanker;
+    }
+    public Optional<Account> findAccountById(String accountId) {
+        return accounts.stream().filter(account -> account.getAccountId().equals(accountId)).findFirst();
     }
 }
