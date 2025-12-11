@@ -30,6 +30,6 @@
 
 # ERD :
 
-![ER Diagram](Screenshot 2025-12-11 at 4.26.48 PM.png)
+![ER Diagram](erd.png)
 
 
