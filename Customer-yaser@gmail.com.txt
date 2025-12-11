@@ -1,0 +1,8 @@
+yaser
+ammar
+yaser@gmail.com
+868d5cf1-96fa-478b-a6df-74c211fb4d55
+$2a$12$ia2lPhdTt4NYBY5K4aeAmeI4JnaXchqbluYZCoGRwSUou1NRcTrRG
+LOCK:0:null
+BANKER:false
+ACCOUNT:a8a43e68-a016-4675-bb6b-eef40ab01174:Saving:-110.0:false:MasterCard:210.0:0.0:0.0:100.0:0.0:2025-12-11:2

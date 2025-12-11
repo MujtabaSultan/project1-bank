@@ -1,0 +1,8 @@
+va
+va
+va
+289ca7b1-3794-4b8a-8aa4-c7790f42b494
+$2a$12$CQh.L7mWPrS3A6uEn5HBUuFl.E3g7klJ2URTzhVIxaQAvJu5/Rqoy
+LOCK:0:null
+BANKER:false
+ACCOUNT:00a8b56e-adea-42ae-8559-774a39144973:Saving:4000.0:true:MasterCard:3000.0:0.0:2000.0:9000.0:0.0:2025-12-10:0

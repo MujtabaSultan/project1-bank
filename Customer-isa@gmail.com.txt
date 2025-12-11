@@ -1,0 +1,8 @@
+isa
+ali
+isa@gmail.com
+15624ff3-ccd5-4ded-82e4-62050dbd0390
+$2a$12$ZjCbgK/cSAaOK2XN2IEPsunOE9RKZE1/bXxdlNV4mBKicMNQyoluO
+LOCK:0:null
+BANKER:false
+ACCOUNT:f28ea60b-cfb5-48a6-b4aa-8e261091e11b:Checking:0.0:true:MasterCardTitanium:0.0:0.0:0.0:0.0:0.0:2025-12-10:0

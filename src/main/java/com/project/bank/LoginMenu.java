@@ -654,6 +654,8 @@ public class LoginMenu {
         System.out.println();
         System.out.println("Account Holder: " + customer.getFullName());
         System.out.println("Account Type: " + account.getAccountType());
+        System.out.println("overdraft count: " + account.getOverdraftCount());
+        System.out.println("card Type: " + account.getDebitCard().getCardType());
         System.out.println("Account ID: " + account.getAccountId());
         System.out.println("Account Status: " + (account.isActive() ? "Active" : "Locked"));
         System.out.println("Statement Date: " + java.time.LocalDateTime.now().format(

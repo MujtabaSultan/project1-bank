@@ -5,4 +5,4 @@ b
 $2a$12$rxegJL5XK2eVe2rMdouqAO7pV2.0OUBAApmhmN7C1haWX39fXolBa
 LOCK:0:null
 BANKER:false
-ACCOUNT:acb46db3-9328-4ff9-a91a-b081123bb40f:Saving:-77.0:true:MasterCard:0.0:0.0:0.0:0.0:0.0:2025-12-10:0
+ACCOUNT:acb46db3-9328-4ff9-a91a-b081123bb40f:Saving:245.0:true:MasterCard:0.0:0.0:0.0:0.0:0.0:2025-12-10:0

@@ -120,11 +120,11 @@ public class AuthService {
                         tempCustomer.getLockUntil());
 
                 if(tempCustomer.isLocked()) {
-                    System.out.println("Too many failed login attempts!");
+                    System.out.println("Too many failed login attempts");
                     System.out.println("Account is now locked for 1 minute.");
                 } else {
                     int attemptsLeft = 3 - tempCustomer.getFailedLoginAttempts();
-                    System.out.println("Invalid password. " + attemptsLeft + " attempt(s) remaining.");
+                    System.out.println("Invalid password. " + attemptsLeft + " attempts remaining.");
                 }
             }
 

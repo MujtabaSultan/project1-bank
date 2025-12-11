@@ -1,0 +1,9 @@
+mueen
+ali
+mueen@ali.com
+41f5e411-8fc1-4dd1-bf89-47c990d2a4ee
+$2a$12$3VZ/jwmIlrb4Va4aSblFKOWzoFyU0J02ClIAKgnRmaDz9U.ynHWT2
+LOCK:3:2025-12-10T20:38:44.061756
+BANKER:false
+ACCOUNT:62f20c53-7a2b-427b-ae13-575c4a842738:Saving:109925.0:true:MasterCard:40.0:0.0:0.0:110000.0:0.0:2025-12-10:1
+ACCOUNT:f124307a-05eb-4f42-a8f1-a70bc7eaec0e:Checking:0.0:true:MasterCardPlatinium:0.0:0.0:0.0:0.0:0.0:2025-12-10:0

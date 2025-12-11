@@ -1,0 +1,9 @@
+jasem
+ali
+jasem@gmail.com
+aaf7ae99-b94e-4bc1-a592-c262327fe05e
+$2a$12$aw/14MmeMT4zfnawpfwpXOpm6xzbHKvSrqcJ6qLVzxCTSrcwgaTfK
+LOCK:0:null
+BANKER:false
+ACCOUNT:6a12bb52-9d14-4228-8162-2ce301ac27c2:Saving:1920.0:true:MasterCard:0.0:10.0:70.0:2000.0:0.0:2025-12-10:0
+ACCOUNT:5222587e-c351-4da8-bfd2-9c98fb159be4:Checking:10.0:true:MasterCardPlatinium:0.0:0.0:0.0:0.0:0.0:2025-12-10:0
